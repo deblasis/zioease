@@ -20,7 +20,7 @@ const v5 = ease.cubicInOut(f64, 0.25);
 ```
 
 ```bash
-zig build test          # Run 37 tests
+zig build test          # Run 40 tests
 zig build run-example   # Run example
 ```
 
