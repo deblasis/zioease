@@ -332,3 +332,31 @@ test "elasticInOut boundaries" {
     try std.testing.expectApproxEqAbs(@as(f32, 0), elasticInOut(f32, 0), 0.001);
     try std.testing.expectApproxEqAbs(@as(f32, 1), elasticInOut(f32, 1), 0.001);
 }
+
+test "quartInOut boundaries" {
+    try std.testing.expectApproxEqAbs(@as(f32, 0), quartInOut(f32, 0), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 1), quartInOut(f32, 1), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 0.5), quartInOut(f32, 0.5), 0.001);
+}
+
+test "quintInOut boundaries" {
+    try std.testing.expectApproxEqAbs(@as(f32, 0), quintInOut(f32, 0), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 1), quintInOut(f32, 1), 0.001);
+}
+
+test "circInOut boundaries" {
+    try std.testing.expectApproxEqAbs(@as(f32, 0), circInOut(f32, 0), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 1), circInOut(f32, 1), 0.001);
+}
+
+test "all easings monotonic in for t in [0,1]" {
+    // Easing-in functions should be monotonically increasing
+    const T = f32;
+    var prev: T = 0;
+    for (0..11) |i| {
+        const t: T = @as(T, @floatFromInt(i)) / 10;
+        const v = quadIn(T, t);
+        try std.testing.expect(v >= prev);
+        prev = v;
+    }
+}
