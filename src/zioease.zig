@@ -396,3 +396,18 @@ test "circOut at 0.5" {
     const v = circOut(f32, 0.5);
     try std.testing.expect(v > 0 and v < 1);
 }
+
+test "all in-out easings are symmetric around 0.5" {
+    const T = f32;
+    // In-out easings should return ~0.5 at t=0.5
+    try std.testing.expectApproxEqAbs(@as(T, 0.5), quadInOut(T, 0.5), 0.01);
+    try std.testing.expectApproxEqAbs(@as(T, 0.5), cubicInOut(T, 0.5), 0.01);
+    try std.testing.expectApproxEqAbs(@as(T, 0.5), sineInOut(T, 0.5), 0.01);
+}
+
+test "all in easings start slow" {
+    // At t=0.1, easing-in should give a value < 0.1 (accelerating)
+    try std.testing.expect(quadIn(f32, 0.1) < 0.1);
+    try std.testing.expect(cubicIn(f32, 0.1) < 0.1);
+    try std.testing.expect(quartIn(f32, 0.1) < 0.1);
+}
