@@ -24,6 +24,20 @@ zig build test          # Run 37 tests
 zig build run-example   # Run example
 ```
 
+## Example output
+
+```
+$ zig build run-example
+At t=0.5:
+  linear:  0.5
+  quadIn:  0.25
+  quadOut: 0.75
+  cubicIn: 0.13
+  sineOut: 0.71
+Elastic at t=0.4: 1.031 (overshoots past 1!)
+Bounce at t=0.6: 0.773
+```
+
 ## API
 
 All functions have the signature `fn(comptime T: type, t: T) T` where `t ∈ [0, 1]`.
