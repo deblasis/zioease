@@ -465,3 +465,8 @@ test "all InOut easings return 0.5 at t=0.5" {
     try std.testing.expectApproxEqAbs(@as(f32, 0.5), quintInOut(f32, 0.5), 0.01);
     try std.testing.expectApproxEqAbs(@as(f32, 0.5), sineInOut(f32, 0.5), 0.01);
 }
+
+test "backIn and backOut at boundaries" {
+    try std.testing.expectApproxEqAbs(@as(f32, 0), backIn(f32, 0), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 1), backOut(f32, 1), 0.001);
+}
