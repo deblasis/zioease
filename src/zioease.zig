@@ -321,3 +321,14 @@ test "all functions return 0 at t=0 and 1 at t=1" {
     try std.testing.expectApproxEqAbs(@as(T, 0), backInOut(T, 0), 0.001);
     try std.testing.expectApproxEqAbs(@as(T, 1), backInOut(T, 1), 0.001);
 }
+
+test "backInOut symmetry" {
+    // backInOut at t=0.5 should be close to 0.5
+    const v = backInOut(f32, 0.5);
+    try std.testing.expectApproxEqAbs(@as(f32, 0.5), v, 0.1);
+}
+
+test "elasticInOut boundaries" {
+    try std.testing.expectApproxEqAbs(@as(f32, 0), elasticInOut(f32, 0), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 1), elasticInOut(f32, 1), 0.001);
+}
