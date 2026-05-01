@@ -5,20 +5,25 @@
 
 const std = @import("std");
 
+/// Linear interpolation: returns t unchanged. The simplest easing.
 pub fn linear(comptime T: type, t: T) T {
     return t;
 }
 
 // --- Quadratic ---
 
+/// Quadratic ease-in: starts slow, accelerates.
 pub fn quadIn(comptime T: type, t: T) T {
     return t * t;
 }
 
+/// Quadratic ease-out: starts fast, decelerates.
 pub fn quadOut(comptime T: type, t: T) T {
     return -(t - 1) * (t - 1) + 1;
 }
 
+/// Quadratic ease-in: starts slow, accelerates.
+/// Quadratic ease-in-out: slow start and end, fast middle.
 pub fn quadInOut(comptime T: type, t: T) T {
     if (t < 0.5) return 2 * t * t;
     return -1 + (4 - 2 * t) * t;
@@ -26,15 +31,19 @@ pub fn quadInOut(comptime T: type, t: T) T {
 
 // --- Cubic ---
 
+/// Cubic ease-in: stronger curve than quadratic.
 pub fn cubicIn(comptime T: type, t: T) T {
     return t * t * t;
 }
 
+/// Cubic ease-out.
 pub fn cubicOut(comptime T: type, t: T) T {
     const t1 = t - 1;
     return t1 * t1 * t1 + 1;
 }
 
+/// Cubic ease-in: stronger curve than quadratic.
+/// Cubic ease-in-out.
 pub fn cubicInOut(comptime T: type, t: T) T {
     if (t < 0.5) return 4 * t * t * t;
     const t1 = 2 * t - 2;
@@ -43,6 +52,7 @@ pub fn cubicInOut(comptime T: type, t: T) T {
 
 // --- Quartic ---
 
+/// Quartic ease-in: even stronger curve.
 pub fn quartIn(comptime T: type, t: T) T {
     return t * t * t * t;
 }
@@ -52,6 +62,7 @@ pub fn quartOut(comptime T: type, t: T) T {
     return 1 - t1 * t1 * t1 * t1;
 }
 
+/// Quartic ease-in: even stronger curve.
 pub fn quartInOut(comptime T: type, t: T) T {
     if (t < 0.5) return 8 * t * t * t * t;
     const t1 = t - 1;
@@ -77,6 +88,7 @@ pub fn quintInOut(comptime T: type, t: T) T {
 
 // --- Sine ---
 
+/// Sine-based ease-in: smooth, organic curve.
 pub fn sineIn(comptime T: type, t: T) T {
     return 1 - @cos(t * std.math.pi / 2);
 }
@@ -85,12 +97,14 @@ pub fn sineOut(comptime T: type, t: T) T {
     return @sin(t * std.math.pi / 2);
 }
 
+/// Sine-based ease-in: smooth, organic curve.
 pub fn sineInOut(comptime T: type, t: T) T {
     return -0.5 * (@cos(std.math.pi * t) - 1);
 }
 
 // --- Exponential ---
 
+/// Exponential ease-in: dramatic start.
 pub fn expoIn(comptime T: type, t: T) T {
     if (t == 0) return 0;
     return std.math.pow(T, 2, 10 * (t - 1));
@@ -101,6 +115,7 @@ pub fn expoOut(comptime T: type, t: T) T {
     return 1 - std.math.pow(T, 2, -10 * t);
 }
 
+/// Exponential ease-in: dramatic start.
 pub fn expoInOut(comptime T: type, t: T) T {
     if (t == 0) return 0;
     if (t == 1) return 1;
@@ -110,6 +125,7 @@ pub fn expoInOut(comptime T: type, t: T) T {
 
 // --- Circular ---
 
+/// Circular ease-in: quarter-circle curve.
 pub fn circIn(comptime T: type, t: T) T {
     return 1 - @sqrt(1 - t * t);
 }
@@ -119,6 +135,7 @@ pub fn circOut(comptime T: type, t: T) T {
     return @sqrt(1 - t1 * t1);
 }
 
+/// Circular ease-in: quarter-circle curve.
 pub fn circInOut(comptime T: type, t: T) T {
     if (t < 0.5) return 0.5 * (1 - @sqrt(1 - 4 * t * t));
     const t1 = 2 * t - 2;
@@ -127,18 +144,21 @@ pub fn circInOut(comptime T: type, t: T) T {
 
 // --- Elastic ---
 
+/// Elastic ease-in: overshoots like a rubber band.
 pub fn elasticIn(comptime T: type, t: T) T {
     if (t == 0) return 0;
     if (t == 1) return 1;
     return -std.math.pow(T, 2, 10 * (t - 1)) * @sin((10 * t - 10.75) * (2 * std.math.pi) / 3);
 }
 
+/// Elastic ease-out: bouncy overshoot at the end.
 pub fn elasticOut(comptime T: type, t: T) T {
     if (t == 0) return 0;
     if (t == 1) return 1;
     return std.math.pow(T, 2, -10 * t) * @sin((10 * t - 0.75) * (2 * std.math.pi) / 3) + 1;
 }
 
+/// Elastic ease-in: overshoots like a rubber band.
 pub fn elasticInOut(comptime T: type, t: T) T {
     if (t == 0) return 0;
     if (t == 1) return 1;
@@ -148,6 +168,7 @@ pub fn elasticInOut(comptime T: type, t: T) T {
 
 // --- Back ---
 
+/// Back ease-in: pulls back before accelerating.
 pub fn backIn(comptime T: type, t: T) T {
     const s: T = 1.70158;
     return t * t * ((s + 1) * t - s);
@@ -159,6 +180,7 @@ pub fn backOut(comptime T: type, t: T) T {
     return t1 * t1 * ((s + 1) * t1 + s) + 1;
 }
 
+/// Back ease-in: pulls back before accelerating.
 pub fn backInOut(comptime T: type, t: T) T {
     const s: T = 1.70158 * 1.525;
     if (t < 0.5) {
@@ -171,6 +193,7 @@ pub fn backInOut(comptime T: type, t: T) T {
 
 // --- Bounce ---
 
+/// Bounce ease-out: simulates a bouncing ball.
 pub fn bounceOut(comptime T: type, t: T) T {
     if (t < 1.0 / 2.75) {
         return 7.5625 * t * t;
@@ -186,10 +209,13 @@ pub fn bounceOut(comptime T: type, t: T) T {
     }
 }
 
+/// Bounce ease-in: reverse bounce.
 pub fn bounceIn(comptime T: type, t: T) T {
     return 1 - bounceOut(T, 1 - t);
 }
 
+/// Bounce ease-in: reverse bounce.
+/// Bounce ease-in-out: bounce at both ends.
 pub fn bounceInOut(comptime T: type, t: T) T {
     if (t < 0.5) return 0.5 * bounceIn(T, 2 * t);
     return 0.5 * bounceOut(T, 2 * t - 1) + 0.5;
