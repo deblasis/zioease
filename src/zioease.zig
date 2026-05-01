@@ -387,3 +387,12 @@ test "all out easings reach 1 at t=1" {
     try std.testing.expectApproxEqAbs(@as(T, 1), quintOut(T, 1), 0.001);
     try std.testing.expectApproxEqAbs(@as(T, 1), sineOut(T, 1), 0.001);
 }
+
+test "sineIn at 0.25" {
+    try std.testing.expectApproxEqAbs(@as(f32, 0.07612), sineIn(f32, 0.25), 0.001);
+}
+
+test "circOut at 0.5" {
+    const v = circOut(f32, 0.5);
+    try std.testing.expect(v > 0 and v < 1);
+}
