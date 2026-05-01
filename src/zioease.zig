@@ -370,3 +370,20 @@ test "backInOut midpoint" {
     const v = backInOut(f32, 0.5);
     try std.testing.expect(v > 0 and v < 1);
 }
+
+test "quartOut at 0.5" {
+    try std.testing.expectApproxEqAbs(@as(f32, 0.9375), quartOut(f32, 0.5), 0.001);
+}
+
+test "quintIn at 0.5" {
+    try std.testing.expectApproxEqAbs(@as(f32, 0.03125), quintIn(f32, 0.5), 0.001);
+}
+
+test "all out easings reach 1 at t=1" {
+    const T = f32;
+    try std.testing.expectApproxEqAbs(@as(T, 1), quadOut(T, 1), 0.001);
+    try std.testing.expectApproxEqAbs(@as(T, 1), cubicOut(T, 1), 0.001);
+    try std.testing.expectApproxEqAbs(@as(T, 1), quartOut(T, 1), 0.001);
+    try std.testing.expectApproxEqAbs(@as(T, 1), quintOut(T, 1), 0.001);
+    try std.testing.expectApproxEqAbs(@as(T, 1), sineOut(T, 1), 0.001);
+}
