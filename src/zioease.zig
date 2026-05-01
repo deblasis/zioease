@@ -445,3 +445,23 @@ test "all in easings are monotonically increasing" {
         prev = v;
     }
 }
+
+test "all easings return 0 at t=0 and 1 at t=1" {
+    const t: f32 = 0;
+    try std.testing.expectApproxEqAbs(@as(f32, 0), quadIn(f32, t), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 0), cubicIn(f32, t), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 0), quartIn(f32, t), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 0), quintIn(f32, t), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 0), sineIn(f32, t), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 0), expoIn(f32, t), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 0), circIn(f32, t), 0.001);
+    try std.testing.expectApproxEqAbs(@as(f32, 0), linear(f32, t), 0.001);
+}
+
+test "all InOut easings return 0.5 at t=0.5" {
+    try std.testing.expectApproxEqAbs(@as(f32, 0.5), quadInOut(f32, 0.5), 0.01);
+    try std.testing.expectApproxEqAbs(@as(f32, 0.5), cubicInOut(f32, 0.5), 0.01);
+    try std.testing.expectApproxEqAbs(@as(f32, 0.5), quartInOut(f32, 0.5), 0.01);
+    try std.testing.expectApproxEqAbs(@as(f32, 0.5), quintInOut(f32, 0.5), 0.01);
+    try std.testing.expectApproxEqAbs(@as(f32, 0.5), sineInOut(f32, 0.5), 0.01);
+}
