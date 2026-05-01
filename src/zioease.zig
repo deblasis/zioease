@@ -483,3 +483,15 @@ test "linear f64 precision" {
 test "cubicInOut f64" {
     try std.testing.expectApproxEqAbs(@as(f64, 0.5), cubicInOut(f64, 0.5), 0.01);
 }
+
+test "animate opacity 0→1 over 10 frames" {
+    const frames = 10;
+    var prev: f32 = 0;
+    for (0..frames) |i| {
+        const t = @as(f32, @floatFromInt(i)) / @as(f32, @floatFromInt(frames - 1));
+        const opacity = cubicOut(f32, t);
+        try std.testing.expect(opacity >= prev - 0.001);
+        prev = opacity;
+    }
+    try std.testing.expectApproxEqAbs(@as(f32, 1.0), prev, 0.001);
+}
