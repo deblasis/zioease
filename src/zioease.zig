@@ -360,3 +360,13 @@ test "all easings monotonic in for t in [0,1]" {
         prev = v;
     }
 }
+
+test "expoInOut midpoint" {
+    try std.testing.expectApproxEqAbs(@as(f32, 0.5), expoInOut(f32, 0.5), 0.01);
+}
+
+test "backInOut midpoint" {
+    // backInOut at 0.5 should be close to 0.5 (with slight deviation from back curve)
+    const v = backInOut(f32, 0.5);
+    try std.testing.expect(v > 0 and v < 1);
+}
