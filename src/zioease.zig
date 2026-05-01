@@ -411,3 +411,17 @@ test "all in easings start slow" {
     try std.testing.expect(cubicIn(f32, 0.1) < 0.1);
     try std.testing.expect(quartIn(f32, 0.1) < 0.1);
 }
+
+test "composed easing: bounce then smooth" {
+    // Use bounceOut for first half, then smooth with quadInOut
+    const t: f32 = 0.3;
+    const v1 = bounceOut(f32, t);
+    const v2 = quadInOut(f32, v1);
+    try std.testing.expect(v2 >= 0 and v2 <= 1);
+}
+
+test "all out easings end at 1" {
+    try std.testing.expectApproxEqAbs(@as(f32, 1), backOut(f32, 1.0), 0.01);
+    try std.testing.expectApproxEqAbs(@as(f32, 1), bounceOut(f32, 1.0), 0.01);
+    try std.testing.expectApproxEqAbs(@as(f32, 1), elasticOut(f32, 1.0), 0.01);
+}
