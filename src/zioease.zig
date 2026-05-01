@@ -474,3 +474,12 @@ test "backIn and backOut at boundaries" {
 test "example: bounceOut at 0.6" {
     try std.testing.expectApproxEqAbs(@as(f32, 0.773), bounceOut(f32, 0.6), 0.01);
 }
+
+test "linear f64 precision" {
+    const v = linear(f64, 0.123456789);
+    try std.testing.expectApproxEqAbs(@as(f64, 0.123456789), v, 1e-10);
+}
+
+test "cubicInOut f64" {
+    try std.testing.expectApproxEqAbs(@as(f64, 0.5), cubicInOut(f64, 0.5), 0.01);
+}
