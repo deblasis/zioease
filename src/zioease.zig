@@ -425,3 +425,23 @@ test "all out easings end at 1" {
     try std.testing.expectApproxEqAbs(@as(f32, 1), bounceOut(f32, 1.0), 0.01);
     try std.testing.expectApproxEqAbs(@as(f32, 1), elasticOut(f32, 1.0), 0.01);
 }
+
+test "all out easings are monotonically increasing in second half" {
+    var prev: f32 = cubicOut(f32, 0.5);
+    var t: f32 = 0.55;
+    while (t <= 1.0) : (t += 0.05) {
+        const v = cubicOut(f32, t);
+        try std.testing.expect(v >= prev - 0.01); // allow tiny float imprecision
+        prev = v;
+    }
+}
+
+test "all in easings are monotonically increasing" {
+    var prev: f32 = 0;
+    var t: f32 = 0.05;
+    while (t <= 1.0) : (t += 0.05) {
+        const v = quadIn(f32, t);
+        try std.testing.expect(v >= prev - 0.001);
+        prev = v;
+    }
+}
